@@ -5,7 +5,7 @@ const LOCAL_STORAGE_KEY = "walletAddresses";
 export default function WalletInput() {
   const [input, setInput] = useState("");
   const [addresses, setAddresses] = useState([]);
-  const [selectedView, setSelectedView] = useState("all"); // "all" eller "single"
+  const [selectedView, setSelectedView] = useState("all");
   const [selectedAddress, setSelectedAddress] = useState("");
 
   useEffect(() => {
