@@ -23,11 +23,11 @@ export default function WalletInput() {
     const trimmed = input.trim();
 
     if (!isValidAddress(trimmed)) {
-      alert("Ogiltig Ethereum-adress");
+      alert("Invalid Ethereum address");
       return;
     }
     if (addresses.includes(trimmed)) {
-      alert("Den här adressen är redan tillagd");
+      alert("This address has already been added");
       return;
     }
 
