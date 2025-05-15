@@ -5,6 +5,8 @@ const LOCAL_STORAGE_KEY = "walletAddresses";
 export default function WalletInput() {
   const [input, setInput] = useState("");
   const [addresses, setAddresses] = useState([]);
+  const [selectedView, setSelectedView] = useState("all"); // "all" eller "single"
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -35,12 +37,16 @@ export default function WalletInput() {
 
   const removeAddress = (addr) => {
     setAddresses(addresses.filter((a) => a !== addr));
+    if (selectedAddress === addr) {
+      setSelectedAddress("");
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-2xl shadow bg-white">
-      <h2 className="text-xl font-semibold mb-3">Add EVM-addresses</h2>
-      <div className="flex gap-2 mb-4">
+    <div className="max-w-md mx-auto p-4 border rounded-2xl shadow bg-white space-y-4">
+      <h2 className="text-xl font-semibold">Add EVM-addresses</h2>
+
+      <div className="flex gap-2">
         <input
           type="text"
           value={input}
@@ -55,6 +61,7 @@ export default function WalletInput() {
           Add
         </button>
       </div>
+
       <ul className="space-y-2">
         {addresses.map((addr, i) => (
           <li
@@ -71,6 +78,54 @@ export default function WalletInput() {
           </li>
         ))}
       </ul>
+
+      {addresses.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex gap-4">
+            <label className="font-medium">Show:</label>
+            <button
+              className={`px-3 py-1 rounded ${
+                selectedView === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setSelectedView("all")}
+            >
+              All
+            </button>
+            <button
+              className={`px-3 py-1 rounded ${
+                selectedView === "single" ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setSelectedView("single")}
+            >
+              Single
+            </button>
+          </div>
+
+          {selectedView === "single" && (
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={selectedAddress}
+              onChange={(e) => setSelectedAddress(e.target.value)}
+            >
+              <option value="">-- Choose address --</option>
+              {addresses.map((addr) => (
+                <option key={addr} value={addr}>
+                  {addr}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+      )}
+
+      <div className="mt-4">
+        <p className="text-sm text-gray-600">
+          Vy: <strong>{selectedView}</strong>{" "}
+          {selectedView === "single" && selectedAddress && (
+            <>({selectedAddress.slice(0, 6)}...{selectedAddress.slice(-4)})</>
+          )}
+        </p>
+      </div>
     </div>
   );
 }
