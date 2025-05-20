@@ -1,4 +1,4 @@
-export async function getPerpPositions(address) {
+async function fetchPerpPositionsForAddress(address) {
   const payload = {
     type: "clearinghouseState",
     user: address.trim(),
@@ -19,6 +19,7 @@ export async function getPerpPositions(address) {
   const data = await response.json();
 
   return (data.assetPositions || []).map(({ position }) => ({
+    wallet: address,
     symbol: position.coin,
     entryPrice: parseFloat(position.entryPx),
     size: parseFloat(position.szi),
@@ -28,8 +29,14 @@ export async function getPerpPositions(address) {
   }));
 }
 
-const perpPositionsTest = getPerpPositions("0xB9eABBb9475EA43f17C55F019B12073DAFe0A92A")
-  .then(console.log)
-  .catch(console.error);
+export async function getPerpPositions(addressOrArray) {
+  const addresses = Array.isArray(addressOrArray) ? addressOrArray : [addressOrArray];
 
-console.log(perpPositionsTest);
+  const results = await Promise.all(
+    addresses.map(addr => fetchPerpPositionsForAddress(addr))
+  );
+
+  return results.flat();
+}
+
+getPerpPositions(["0xB9eABBb9475EA43f17C55F019B12073DAFe0A92A", "0x53babe76166eae33c861aeddf9ce89af20311cd0", "0x5078c2fbea2b2ad61bc840bc023e35fce56bedb6"]).then(console.log).catch(console.error);
