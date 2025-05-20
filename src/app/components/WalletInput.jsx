@@ -17,6 +17,17 @@ export default function WalletInput() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(addresses));
   }, [addresses]);
 
+  useEffect(() => {
+    const toUse =
+      selectedView === "single" && selectedAddress
+        ? [selectedAddress]
+        : addresses;
+
+    if (toUse.length > 0) {
+      onWalletsChange(toUse);
+    }
+  }, [addresses, selectedView, selectedAddress]);
+
   const isValidAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr.trim());
 
   const addAddress = () => {
@@ -84,17 +95,15 @@ export default function WalletInput() {
           <div className="flex gap-4">
             <label className="font-medium">Show:</label>
             <button
-              className={`px-3 py-1 rounded ${
-                selectedView === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
+              className={`px-3 py-1 rounded ${selectedView === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
               onClick={() => setSelectedView("all")}
             >
               All
             </button>
             <button
-              className={`px-3 py-1 rounded ${
-                selectedView === "single" ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
+              className={`px-3 py-1 rounded ${selectedView === "single" ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
               onClick={() => setSelectedView("single")}
             >
               Single
