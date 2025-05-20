@@ -38,5 +38,3 @@ export async function getPerpPositions(addressOrArray) {
 
   return results.flat();
 }
-
-getPerpPositions(["0xB9eABBb9475EA43f17C55F019B12073DAFe0A92A", "0x53babe76166eae33c861aeddf9ce89af20311cd0", "0x5078c2fbea2b2ad61bc840bc023e35fce56bedb6"]).then(console.log).catch(console.error);
