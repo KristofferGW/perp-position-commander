@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "walletAddresses";
 
-export default function WalletInput() {
+export default function WalletInput( { onWalletsChange }) {
   const [input, setInput] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [selectedView, setSelectedView] = useState("all");
