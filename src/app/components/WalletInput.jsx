@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "walletAddresses";
 
-export default function WalletInput() {
+export default function WalletInput( { onWalletsChange }) {
   const [input, setInput] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [selectedView, setSelectedView] = useState("all");
@@ -16,6 +16,17 @@ export default function WalletInput() {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(addresses));
   }, [addresses]);
+
+  useEffect(() => {
+    const toUse =
+      selectedView === "single" && selectedAddress
+        ? [selectedAddress]
+        : addresses;
+
+    if (toUse.length > 0) {
+      onWalletsChange(toUse);
+    }
+  }, [addresses, selectedView, selectedAddress]);
 
   const isValidAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr.trim());
 
@@ -43,7 +54,7 @@ export default function WalletInput() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-2xl shadow bg-white space-y-4">
+    <div className="max-w-md mx-auto p-4 mb-4 border rounded-2xl shadow bg-white space-y-4">
       <h2 className="text-xl font-semibold">Add EVM-addresses</h2>
 
       <div className="flex gap-2">
@@ -84,17 +95,15 @@ export default function WalletInput() {
           <div className="flex gap-4">
             <label className="font-medium">Show:</label>
             <button
-              className={`px-3 py-1 rounded ${
-                selectedView === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
+              className={`px-3 py-1 rounded ${selectedView === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
               onClick={() => setSelectedView("all")}
             >
               All
             </button>
             <button
-              className={`px-3 py-1 rounded ${
-                selectedView === "single" ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
+              className={`px-3 py-1 rounded ${selectedView === "single" ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
               onClick={() => setSelectedView("single")}
             >
               Single
