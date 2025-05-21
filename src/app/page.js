@@ -6,20 +6,14 @@ import WalletInput from "./components/WalletInput";
 import { getPerpPositions } from "../lib/getPerpPositions";
 
 export default function Home() {
+  const [wallets, setWallets] = useState([]);
   const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleWalletsChange = async (wallets) => {
-    setLoading(true);
-    try {
-      const fetchedPositions = await getPerpPositions(wallets);
-      setPositions(fetchedPositions);
-    } catch (err) {
-      console.error("Error fetching positions:", err);
-      setPositions([]); // Rensa om det går fel
-    } finally {
-      setLoading(false);
-    }
+  const handleWalletsChange = async (walletList) => {
+    setWallets(walletList);
+    const newPositions = await getPerpPositions(walletList);
+    setPositions(newPositions);
   };
 
   return (

@@ -4,7 +4,7 @@ import React from "react";
 
 export default function PositionsTable({ positions }) {
     if (!positions || positions.length === 0) {
-        return <div>No positions found.</div>;
+        return <div className="w-64 mx-auto">No positions found.</div>;
     }
 
     const grouped = positions.reduce((acc, pos) => {
