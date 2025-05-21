@@ -54,7 +54,7 @@ export default function WalletInput( { onWalletsChange }) {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-2xl shadow bg-white space-y-4">
+    <div className="max-w-md mx-auto p-4 mb-4 border rounded-2xl shadow bg-white space-y-4">
       <h2 className="text-xl font-semibold">Add EVM-addresses</h2>
 
       <div className="flex gap-2">
