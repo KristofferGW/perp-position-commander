@@ -24,7 +24,7 @@ export default function WalletInput( { onWalletsChange }) {
         : addresses;
 
     if (toUse.length > 0) {
-      onWalletsChange(toUse);
+      onWalletsChange?.(toUse);
     }
   }, [addresses, selectedView, selectedAddress]);
 
