@@ -23,7 +23,7 @@ export default function Home() {
         {loading ? (
           <div className="text-center p-4">Loading positions...</div>
         ) : (
-          <PositionsTable positions={positions} />
+          <PositionsTable positions={positions} allWallets={wallets} />
         )}
       </div>
     </div>
