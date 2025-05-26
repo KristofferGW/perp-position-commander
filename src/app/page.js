@@ -4,6 +4,7 @@ import { useState } from "react";
 import PositionsTable from "./components/PositionsTable";
 import WalletInput from "./components/WalletInput";
 import { getPerpPositions } from "../lib/getPerpPositions";
+import useWalletStore from "@/store/useWalletStore";
 
 export default function Home() {
   const [wallets, setWallets] = useState([]);
@@ -11,14 +12,28 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const walletPositions = useWalletStore((state) => state.walletPositions);
+  const setWalletPositions = useWalletStore((state) => state.setWalletPositions);
+
   const handleWalletsChange = async (walletList) => {
     setWallets(walletList);
     setError(null);
     setLoading(true);
 
     try {
-      const newPositions = await getPerpPositions(walletList);
-      setPositions(newPositions);
+      const allPositions = [];
+
+      for (const wallet of walletList) {
+        if (walletPositions[wallet]) {
+          allPositions.push(...walletPositions[wallet]);
+        } else {
+          const newPositions = await getPerpPositions([wallet]);
+          setWalletPositions(wallet, newPositions);
+          allPositions.push(...newPositions);
+        }
+      }
+
+      setPositions(allPositions);
     } catch (error) {
       setPositions([]);
       setError("Failed to fetch positions. Please try again.");
