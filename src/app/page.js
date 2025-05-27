@@ -12,11 +12,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const walletPositions = useWalletStore((state) => state.walletPositions);
   const setWalletPositions = useWalletStore((state) => state.setWalletPositions);
   const getValidWalletPositions = useWalletStore((state) => state.getValidWalletPositions);
 
-  const handleWalletsChange = async (walletList) => {
+  const handleWalletsChange = async (walletList, forceRefresh = false) => {
     setWallets(walletList);
     setError(null);
     setLoading(true);
@@ -25,7 +24,7 @@ export default function Home() {
       const allPositions = [];
 
       for (const wallet of walletList) {
-        const cached = getValidWalletPositions(wallet);
+        const cached = forceRefresh ? null : getValidWalletPositions(wallet);
 
         if (cached) {
           allPositions.push(...cached);
@@ -50,6 +49,17 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="w-full max-w-3xl">
         <WalletInput onWalletsChange={handleWalletsChange} />
+
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={() => handleWalletsChange(wallets, true)}
+            disabled={loading}
+            className={`mb-4 px-4 py-2 rounded transition ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+              }`}
+          >
+            {loading ? "Refreshing..." : "Refresh positions"}
+          </button>
+        </div>
 
         {error && (
           <div className="text-center text-red-600 bg-red-100 border border-red-300 p-3 rounded">
