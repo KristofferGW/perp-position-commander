@@ -32,7 +32,7 @@ export default function Home() {
           allPositions.push(...cached);
         } else {
           console.log(`❌ Cache MISS for, fetching from API...`);
-          const newPositions = await getValidWalletPositions([wallet]);
+          const newPositions = await getPerpPositions(wallet);
           setWalletPositions(wallet, newPositions);
           allPositions.push(...newPositions);
         }
