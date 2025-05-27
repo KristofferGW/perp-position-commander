@@ -12,7 +12,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const walletPositions = useWalletStore((state) => state.walletPositions);
   const setWalletPositions = useWalletStore((state) => state.setWalletPositions);
   const getValidWalletPositions = useWalletStore((state) => state.getValidWalletPositions);
 
