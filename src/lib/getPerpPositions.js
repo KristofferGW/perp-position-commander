@@ -31,6 +31,5 @@ async function fetchPerpPositionsForAddress(address) {
 
 export async function getPerpPositions(wallet) {
   const positions = await fetchPerpPositionsForAddress(wallet);
-  console.log("Fetched positions for", wallet, ":", positions);
   return positions;
 }
