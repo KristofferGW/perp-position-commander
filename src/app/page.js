@@ -28,8 +28,10 @@ export default function Home() {
         const cached = getValidWalletPositions(wallet);
 
         if (cached) {
+          console.log(`✅ Cache HIT for`);
           allPositions.push(...cached);
         } else {
+          console.log(`❌ Cache MISS for, fetching from API...`);
           const newPositions = await getValidWalletPositions([wallet]);
           setWalletPositions(wallet, newPositions);
           allPositions.push(...newPositions);
