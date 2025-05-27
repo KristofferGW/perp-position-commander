@@ -14,6 +14,7 @@ export default function Home() {
 
   const walletPositions = useWalletStore((state) => state.walletPositions);
   const setWalletPositions = useWalletStore((state) => state.setWalletPositions);
+  const getValidWalletPositions = useWalletStore((state) => state.getValidWalletPositions);
 
   const handleWalletsChange = async (walletList) => {
     setWallets(walletList);
@@ -24,10 +25,12 @@ export default function Home() {
       const allPositions = [];
 
       for (const wallet of walletList) {
-        if (walletPositions[wallet]) {
-          allPositions.push(...walletPositions[wallet]);
+        const cached = getValidWalletPositions(wallet);
+
+        if (cached) {
+          allPositions.push(...cached);
         } else {
-          const newPositions = await getPerpPositions([wallet]);
+          const newPositions = await getValidWalletPositions([wallet]);
           setWalletPositions(wallet, newPositions);
           allPositions.push(...newPositions);
         }
