@@ -29,12 +29,8 @@ async function fetchPerpPositionsForAddress(address) {
   }));
 }
 
-export async function getPerpPositions(addressOrArray) {
-  const addresses = Array.isArray(addressOrArray) ? addressOrArray : [addressOrArray];
-
-  const results = await Promise.all(
-    addresses.map(addr => fetchPerpPositionsForAddress(addr))
-  );
-
-  return results.flat();
+export async function getPerpPositions(wallet) {
+  const positions = await fetchPerpPositionsForAddress(wallet);
+  console.log("Fetched positions for", wallet, ":", positions);
+  return positions;
 }
