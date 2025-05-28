@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "walletAddresses";
 
-export default function WalletInput( { onWalletsChange }) {
+export default function WalletInput({ onWalletsChange }) {
   const [input, setInput] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [selectedView, setSelectedView] = useState("all");
@@ -23,9 +23,7 @@ export default function WalletInput( { onWalletsChange }) {
         ? [selectedAddress]
         : addresses;
 
-    if (toUse.length > 0) {
-      onWalletsChange?.(toUse);
-    }
+    onWalletsChange?.(toUse);
   }, [addresses, selectedView, selectedAddress]);
 
   const isValidAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr.trim());
