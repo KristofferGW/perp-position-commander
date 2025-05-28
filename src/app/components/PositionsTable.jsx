@@ -31,6 +31,7 @@ export default function PositionsTable({ positions, allWallets }) {
                                 <thead>
                                     <tr className="border-b">
                                         <th className="py-1 px-2">Symbol</th>
+                                        <th className="py-1 px-2">Side</th>
                                         <th className="py-1 px-2">Size</th>
                                         <th className="py-1 px-2">Entry</th>
                                         <th className="py-1 px-2">Leverage</th>
@@ -42,7 +43,8 @@ export default function PositionsTable({ positions, allWallets }) {
                                     {walletPositions.map((pos, i) => (
                                         <tr key={i} className="border-t hover:bg-gray-50">
                                             <td className="py-1 px-2">{pos.symbol}</td>
-                                            <td className="py-1 px-2">{pos.size}</td>
+                                            <td className="py-1 px-2">{pos.size >= 0 ? "Long" : "Short"}</td>
+                                            <td className="py-1 px-2">{Math.abs(pos.size)}</td>
                                             <td className="py-1 px-2">${pos.entryPrice.toFixed(2)}</td>
                                             <td className="py-1 px-2">{pos.leverage}x</td>
                                             <td className={`py-1 px-2 ${pos.pnl >= 0 ? "text-green-600" : "text-red-500"}`}>
