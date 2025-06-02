@@ -66,12 +66,8 @@ describe('PositionsTable', () => {
       ...mockPositions[0],
       liquidationPrice: null
     }]
-
-    console.log('Rendering positions without liquidation price:', positionsWithoutLiqPrice)
     
     render(<PositionsTable positions={positionsWithoutLiqPrice} allWallets={[mockWalletAddress]} />)
-
-    screen.debug();
 
     expect(screen.getByText(/—/)).toBeInTheDocument()
   })

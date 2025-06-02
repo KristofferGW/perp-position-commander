@@ -18,12 +18,17 @@ export default function WalletInput({ onWalletsChange }) {
   }, [addresses]);
 
   useEffect(() => {
-    const toUse =
+    const toUseRaw =
       selectedView === "single" && selectedAddress
         ? [selectedAddress]
         : addresses;
 
-    onWalletsChange?.(toUse);
+    const toUse = toUseRaw.filter(isValidAddress);
+
+    if (toUse.length > 0) {
+      onWalletsChange?.(toUse);
+    }
+
   }, [addresses, selectedView, selectedAddress]);
 
   const isValidAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr.trim());
